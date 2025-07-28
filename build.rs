@@ -1,6 +1,8 @@
 use cmake::Config;
 
 fn main() {
+    let target = std::env::var("TARGET").unwrap();
+
     let dst = Config::new("./zlib")
         .define("BUILD_SHARED_LIBS", "FALSE")
         .define("CMAKE_DEBUG_POSTFIX ", "")
@@ -15,16 +17,13 @@ fn main() {
         .define("FT_DISABLE_BZIP2", "TRUE")
         .build();
 
-    let mut debug_suffix = "";
-
-    let target = std::env::var("TARGET").unwrap();
-    let libname = if target.contains("windows") && target.contains("msvc") {
-        if std::env::var("OPT_LEVEL").unwrap() == "0" {
-            debug_suffix = "d";
-        }
-        "zlibstatic"
+    let debug_suffix = if target.contains("windows")
+        && target.contains("msvc")
+        && std::env::var("OPT_LEVEL").unwrap() == "0"
+    {
+        "d"
     } else {
-        "z"
+        ""
     };
 
     println!("cargo:rustc-link-lib=static=z{}", debug_suffix);

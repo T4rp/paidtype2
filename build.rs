@@ -1,9 +1,9 @@
 use cmake::Config;
 
 fn main() {
-    let dst = cmake::build("./third_party/zlib-1.3.1/");
+    let dst = cmake::build("./zlib");
 
-    Config::new("./third_party/freetype-2.13.3/")
+    Config::new("./freetype")
         .define("DISABLE_FORCE_DEBUG_POSTFIX", "TRUE")
         .define("BUILD_SHARED_LIBS", "FALSE")
         .define("FT_DISABLE_HARFBUZZ", "TRUE")

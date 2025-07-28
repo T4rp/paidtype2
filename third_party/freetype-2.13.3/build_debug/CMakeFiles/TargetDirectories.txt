@@ -1,9 +1,0 @@
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/freetype.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/package.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/package_source.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/edit_cache.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/rebuild_cache.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/list_install_components.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/install.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/install/local.dir
-/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/CMakeFiles/install/strip.dir

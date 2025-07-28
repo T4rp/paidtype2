@@ -1,8 +1,6 @@
 use std::ffi::c_int;
 
-use freetype::freetype::{
-    FT_Done_FreeType, FT_Init_FreeType, FT_Int, FT_Library, FT_Library_Version,
-};
+use freetype::freetype::{FT_Done_FreeType, FT_Init_FreeType, FT_Library, FT_Library_Version};
 
 fn main() {
     let mut ft_library = FT_Library::default();

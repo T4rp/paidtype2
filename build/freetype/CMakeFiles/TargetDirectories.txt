@@ -1,9 +1,0 @@
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/freetype.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/package.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/package_source.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/edit_cache.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/rebuild_cache.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/list_install_components.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/install.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/install/local.dir
-/home/joy/Projects/paidtype2/build/freetype/CMakeFiles/install/strip.dir

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/joy/Projects/paidtype2/third_party/freetype-2.13.3/build_debug/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

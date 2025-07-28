@@ -1,3 +1,0 @@
-CompileFlags:
-  Add:
-    - -I${workspaceFolder}/third_party/freetype-2.13.3/include/

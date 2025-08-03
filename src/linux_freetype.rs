@@ -92,6 +92,16 @@ pub const FT_FSTYPE_PREVIEW_AND_PRINT_EMBEDDING: u32 = 4;
 pub const FT_FSTYPE_EDITABLE_EMBEDDING: u32 = 8;
 pub const FT_FSTYPE_NO_SUBSETTING: u32 = 256;
 pub const FT_FSTYPE_BITMAP_EMBEDDING_ONLY: u32 = 512;
+pub const FT_LCD_FILTER_FIVE_TAPS: u32 = 5;
+pub const FT_MODULE_FONT_DRIVER: u32 = 1;
+pub const FT_MODULE_RENDERER: u32 = 2;
+pub const FT_MODULE_HINTER: u32 = 4;
+pub const FT_MODULE_STYLER: u32 = 8;
+pub const FT_MODULE_DRIVER_SCALABLE: u32 = 256;
+pub const FT_MODULE_DRIVER_NO_OUTLINES: u32 = 512;
+pub const FT_MODULE_DRIVER_HAS_HINTER: u32 = 1024;
+pub const FT_MODULE_DRIVER_HINTS_LIGHTLY: u32 = 2048;
+pub const FT_DEBUG_HOOK_TRUETYPE: u32 = 0;
 #[doc = " @type:\n   FT_Int16\n\n @description:\n   A typedef for a 16bit signed integer type."]
 pub type FT_Int16 = ::std::os::raw::c_short;
 #[doc = " @type:\n   FT_UInt16\n\n @description:\n   A typedef for a 16bit unsigned integer type."]
@@ -1603,4 +1613,238 @@ unsafe extern "C" {
 unsafe extern "C" {
     #[doc = " @function:\n   FT_Face_SetUnpatentedHinting\n\n @description:\n   Deprecated, does nothing.\n\n @input:\n   face ::\n     A face handle.\n\n   value ::\n     New boolean setting.\n\n @return:\n   Always returns false.\n\n @note:\n   Since May 2010, TrueType hinting is no longer patented.\n\n @since:\n   2.3.5\n"]
     pub fn FT_Face_SetUnpatentedHinting(face: FT_Face, value: FT_Bool) -> FT_Bool;
+}
+pub const FT_LcdFilter__FT_LCD_FILTER_NONE: FT_LcdFilter_ = 0;
+pub const FT_LcdFilter__FT_LCD_FILTER_DEFAULT: FT_LcdFilter_ = 1;
+pub const FT_LcdFilter__FT_LCD_FILTER_LIGHT: FT_LcdFilter_ = 2;
+pub const FT_LcdFilter__FT_LCD_FILTER_LEGACY1: FT_LcdFilter_ = 3;
+pub const FT_LcdFilter__FT_LCD_FILTER_LEGACY: FT_LcdFilter_ = 16;
+pub const FT_LcdFilter__FT_LCD_FILTER_MAX: FT_LcdFilter_ = 17;
+pub type FT_LcdFilter_ = ::std::os::raw::c_uint;
+pub use self::FT_LcdFilter_ as FT_LcdFilter;
+unsafe extern "C" {
+    pub fn FT_Library_SetLcdFilter(library: FT_Library, filter: FT_LcdFilter) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Library_SetLcdFilterWeights(
+        library: FT_Library,
+        weights: *mut ::std::os::raw::c_uchar,
+    ) -> FT_Error;
+}
+pub type FT_LcdFiveTapFilter = [FT_Byte; 5usize];
+unsafe extern "C" {
+    pub fn FT_Library_SetLcdGeometry(library: FT_Library, sub: *mut FT_Vector) -> FT_Error;
+}
+pub const FT_Sfnt_Tag__FT_SFNT_HEAD: FT_Sfnt_Tag_ = 0;
+pub const FT_Sfnt_Tag__FT_SFNT_MAXP: FT_Sfnt_Tag_ = 1;
+pub const FT_Sfnt_Tag__FT_SFNT_OS2: FT_Sfnt_Tag_ = 2;
+pub const FT_Sfnt_Tag__FT_SFNT_HHEA: FT_Sfnt_Tag_ = 3;
+pub const FT_Sfnt_Tag__FT_SFNT_VHEA: FT_Sfnt_Tag_ = 4;
+pub const FT_Sfnt_Tag__FT_SFNT_POST: FT_Sfnt_Tag_ = 5;
+pub const FT_Sfnt_Tag__FT_SFNT_PCLT: FT_Sfnt_Tag_ = 6;
+pub const FT_Sfnt_Tag__FT_SFNT_MAX: FT_Sfnt_Tag_ = 7;
+pub type FT_Sfnt_Tag_ = ::std::os::raw::c_uint;
+pub use self::FT_Sfnt_Tag_ as FT_Sfnt_Tag;
+unsafe extern "C" {
+    pub fn FT_Get_Sfnt_Table(face: FT_Face, tag: FT_Sfnt_Tag) -> *mut ::std::os::raw::c_void;
+}
+unsafe extern "C" {
+    pub fn FT_Load_Sfnt_Table(
+        face: FT_Face,
+        tag: FT_ULong,
+        offset: FT_Long,
+        buffer: *mut FT_Byte,
+        length: *mut FT_ULong,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Sfnt_Table_Info(
+        face: FT_Face,
+        table_index: FT_UInt,
+        tag: *mut FT_ULong,
+        length: *mut FT_ULong,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Get_CMap_Language_ID(charmap: FT_CharMap) -> FT_ULong;
+}
+unsafe extern "C" {
+    pub fn FT_Get_CMap_Format(charmap: FT_CharMap) -> FT_Long;
+}
+pub type FT_Module_Interface = FT_Pointer;
+pub type FT_Module_Constructor =
+    ::std::option::Option<unsafe extern "C" fn(module: FT_Module) -> FT_Error>;
+pub type FT_Module_Destructor = ::std::option::Option<unsafe extern "C" fn(module: FT_Module)>;
+pub type FT_Module_Requester = ::std::option::Option<
+    unsafe extern "C" fn(
+        module: FT_Module,
+        name: *const ::std::os::raw::c_char,
+    ) -> FT_Module_Interface,
+>;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FT_Module_Class_ {
+    pub module_flags: FT_ULong,
+    pub module_size: FT_Long,
+    pub module_name: *const FT_String,
+    pub module_version: FT_Fixed,
+    pub module_requires: FT_Fixed,
+    pub module_interface: *const ::std::os::raw::c_void,
+    pub module_init: FT_Module_Constructor,
+    pub module_done: FT_Module_Destructor,
+    pub get_interface: FT_Module_Requester,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of FT_Module_Class_"][::std::mem::size_of::<FT_Module_Class_>() - 72usize];
+    ["Alignment of FT_Module_Class_"][::std::mem::align_of::<FT_Module_Class_>() - 8usize];
+    ["Offset of field: FT_Module_Class_::module_flags"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_flags) - 0usize];
+    ["Offset of field: FT_Module_Class_::module_size"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_size) - 8usize];
+    ["Offset of field: FT_Module_Class_::module_name"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_name) - 16usize];
+    ["Offset of field: FT_Module_Class_::module_version"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_version) - 24usize];
+    ["Offset of field: FT_Module_Class_::module_requires"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_requires) - 32usize];
+    ["Offset of field: FT_Module_Class_::module_interface"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_interface) - 40usize];
+    ["Offset of field: FT_Module_Class_::module_init"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_init) - 48usize];
+    ["Offset of field: FT_Module_Class_::module_done"]
+        [::std::mem::offset_of!(FT_Module_Class_, module_done) - 56usize];
+    ["Offset of field: FT_Module_Class_::get_interface"]
+        [::std::mem::offset_of!(FT_Module_Class_, get_interface) - 64usize];
+};
+pub type FT_Module_Class = FT_Module_Class_;
+unsafe extern "C" {
+    pub fn FT_Add_Module(library: FT_Library, clazz: *const FT_Module_Class) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Get_Module(
+        library: FT_Library,
+        module_name: *const ::std::os::raw::c_char,
+    ) -> FT_Module;
+}
+unsafe extern "C" {
+    pub fn FT_Remove_Module(library: FT_Library, module: FT_Module) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Property_Set(
+        library: FT_Library,
+        module_name: *const FT_String,
+        property_name: *const FT_String,
+        value: *const ::std::os::raw::c_void,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Property_Get(
+        library: FT_Library,
+        module_name: *const FT_String,
+        property_name: *const FT_String,
+        value: *mut ::std::os::raw::c_void,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Set_Default_Properties(library: FT_Library);
+}
+unsafe extern "C" {
+    pub fn FT_Reference_Library(library: FT_Library) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_New_Library(memory: FT_Memory, alibrary: *mut FT_Library) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Done_Library(library: FT_Library) -> FT_Error;
+}
+pub type FT_DebugHook_Func =
+    ::std::option::Option<unsafe extern "C" fn(arg: *mut ::std::os::raw::c_void) -> FT_Error>;
+unsafe extern "C" {
+    pub fn FT_Set_Debug_Hook(
+        library: FT_Library,
+        hook_index: FT_UInt,
+        debug_hook: FT_DebugHook_Func,
+    );
+}
+unsafe extern "C" {
+    pub fn FT_Add_Default_Modules(library: FT_Library);
+}
+pub const FT_TrueTypeEngineType__FT_TRUETYPE_ENGINE_TYPE_NONE: FT_TrueTypeEngineType_ = 0;
+pub const FT_TrueTypeEngineType__FT_TRUETYPE_ENGINE_TYPE_UNPATENTED: FT_TrueTypeEngineType_ = 1;
+pub const FT_TrueTypeEngineType__FT_TRUETYPE_ENGINE_TYPE_PATENTED: FT_TrueTypeEngineType_ = 2;
+pub type FT_TrueTypeEngineType_ = ::std::os::raw::c_uint;
+pub use self::FT_TrueTypeEngineType_ as FT_TrueTypeEngineType;
+unsafe extern "C" {
+    pub fn FT_Get_TrueType_Engine_Type(library: FT_Library) -> FT_TrueTypeEngineType;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Decompose(
+        outline: *mut FT_Outline,
+        func_interface: *const FT_Outline_Funcs,
+        user: *mut ::std::os::raw::c_void,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_New(
+        library: FT_Library,
+        numPoints: FT_UInt,
+        numContours: FT_Int,
+        anoutline: *mut FT_Outline,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Done(library: FT_Library, outline: *mut FT_Outline) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Check(outline: *mut FT_Outline) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Get_CBox(outline: *const FT_Outline, acbox: *mut FT_BBox);
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Translate(outline: *const FT_Outline, xOffset: FT_Pos, yOffset: FT_Pos);
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Copy(source: *const FT_Outline, target: *mut FT_Outline) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Transform(outline: *const FT_Outline, matrix: *const FT_Matrix);
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Embolden(outline: *mut FT_Outline, strength: FT_Pos) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_EmboldenXY(
+        outline: *mut FT_Outline,
+        xstrength: FT_Pos,
+        ystrength: FT_Pos,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Reverse(outline: *mut FT_Outline);
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Get_Bitmap(
+        library: FT_Library,
+        outline: *mut FT_Outline,
+        abitmap: *const FT_Bitmap,
+    ) -> FT_Error;
+}
+unsafe extern "C" {
+    pub fn FT_Outline_Render(
+        library: FT_Library,
+        outline: *mut FT_Outline,
+        params: *mut FT_Raster_Params,
+    ) -> FT_Error;
+}
+pub const FT_Orientation__FT_ORIENTATION_TRUETYPE: FT_Orientation_ = 0;
+pub const FT_Orientation__FT_ORIENTATION_POSTSCRIPT: FT_Orientation_ = 1;
+pub const FT_Orientation__FT_ORIENTATION_FILL_RIGHT: FT_Orientation_ = 0;
+pub const FT_Orientation__FT_ORIENTATION_FILL_LEFT: FT_Orientation_ = 1;
+pub const FT_Orientation__FT_ORIENTATION_NONE: FT_Orientation_ = 2;
+pub type FT_Orientation_ = ::std::os::raw::c_uint;
+pub use self::FT_Orientation_ as FT_Orientation;
+unsafe extern "C" {
+    pub fn FT_Outline_Get_Orientation(outline: *mut FT_Outline) -> FT_Orientation;
 }

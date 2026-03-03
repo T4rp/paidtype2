@@ -25,6 +25,7 @@ fn main() {
         .define("FT_DISABLE_BROTLI", "TRUE")
         .define("FT_DISABLE_PNG", "TRUE")
         .define("FT_DISABLE_BZIP2", "TRUE")
+        .define("FT_CONFIG_OPTION_STRINGS", "TRUE")
         .out_dir(out_path.join("freetype"))
         .build();
 

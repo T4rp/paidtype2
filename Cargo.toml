@@ -1,11 +1,7 @@
 [package]
-name = "paidtype2"
+name = "paidtype"
 version = "0.1.0"
 edition = "2024"
-
-[lib]
-name = "freetype"
-path = "src/lib.rs"
 
 [[example]]
 name = "initializing"

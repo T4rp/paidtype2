@@ -7,6 +7,9 @@ fn main() {
     let out_path = PathBuf::from(&out_dir);
     let bindings_path = PathBuf::from(&out_dir).join("bindings.rs");
 
+    let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let target_env = std::env::var("CARGO_CFG_TARGET_ENV").unwrap();
+
     println!("cargo::rerun-if-changed=build.rs");
     println!("cargo::rerun-if-changed=src/wrapper.h");
     println!("cargo::rerun-if-changed=zlib/CMakeLists.txt");
@@ -28,8 +31,8 @@ fn main() {
         .out_dir(out_path.join("freetype"))
         .build();
 
-    let debug_suffix = if out_dir.contains("windows")
-        && out_dir.contains("msvc")
+    let debug_suffix = if target_os == "windows"
+        && target_env == "msvc"
         && std::env::var("OPT_LEVEL").unwrap() == "0"
     {
         "d"
